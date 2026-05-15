@@ -82,7 +82,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final doneKeys = prefs.getKeys().where((key) => key.startsWith('done_'));
-    final completed = doneKeys.where((key) => prefs.getBool(key) == true).length;
+    final completed = doneKeys
+        .where((key) => prefs.getBool(key) == true)
+        .length;
 
     // 단계별 카운트 초기화
     int entryCount = 0, entryDone = 0;
@@ -137,7 +139,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _speakProgress() async {
     // 안내 메시지 생성
-    final message = '전체 $_entireCount개 중 $_entireDone개, '
+    final message =
+        '전체 $_entireCount개 중 $_entireDone개, '
         '입문 $_entryDone/$_entryCount, '
         '초급 $_basicDone/$_basicCount, '
         '중급 $_interDone/$_interCount, '
@@ -392,7 +395,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Color(0xFF2563EB)),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Color(0xFF2563EB),
+                      ),
                       iconSize: 28,
                       tooltip: '뒤로가기',
                       onPressed: () async {

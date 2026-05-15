@@ -86,7 +86,9 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
 
   void _focusRecommendedAction() {
     if (!mounted) return;
-    final focusNode = widget.completionRate < 0.8 ? _retryButtonFocus : _nextButtonFocus;
+    final focusNode = widget.completionRate < 0.8
+        ? _retryButtonFocus
+        : _nextButtonFocus;
     FocusScope.of(context).requestFocus(focusNode);
   }
 
@@ -153,7 +155,11 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
             gradient: gradient,
             borderRadius: BorderRadius.circular(28),
             boxShadow: const [
-              BoxShadow(color: Color(0x22006CC3), blurRadius: 20, offset: Offset(0, 10)),
+              BoxShadow(
+                color: Color(0x22006CC3),
+                blurRadius: 20,
+                offset: Offset(0, 10),
+              ),
             ],
           ),
           child: ElevatedButton(
@@ -162,13 +168,19 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
             ),
             onPressed: onPressed,
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: textColor),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: textColor,
+              ),
             ),
           ),
         ),
@@ -195,13 +207,19 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
           autofocus: autofocus,
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: borderColor, width: 1.8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
             backgroundColor: Colors.white,
           ),
           onPressed: onPressed,
           child: Text(
             label,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: textColor),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: textColor,
+            ),
           ),
         ),
       ),
@@ -222,7 +240,9 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
   @override
   Widget build(BuildContext context) {
     final isReviewRecommended = widget.completionRate < 0.8;
-    final recommendationTitle = isReviewRecommended ? '복습을 추천해요' : '다음 학습을 추천해요';
+    final recommendationTitle = isReviewRecommended
+        ? '복습을 추천해요'
+        : '다음 학습을 추천해요';
     final recommendationText = isReviewRecommended
         ? '정확도가 낮습니다. 학습 다시하기로 복습을 시작해 보세요.'
         : '잘했어요! 다음 학습으로 이어가기를 추천합니다.';
@@ -258,10 +278,18 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: const [
-                              BoxShadow(color: Color(0x14000000), blurRadius: 18, offset: Offset(0, 8)),
+                              BoxShadow(
+                                color: Color(0x14000000),
+                                blurRadius: 18,
+                                offset: Offset(0, 8),
+                              ),
                             ],
                           ),
-                          child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Color(0xFF2563EB)),
+                          child: const Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 20,
+                            color: Color(0xFF2563EB),
+                          ),
                         ),
                       ),
                     ),
@@ -269,7 +297,11 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                     const Expanded(
                       child: Text(
                         'Level Cleared',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF0F172A),
+                        ),
                       ),
                     ),
                   ],
@@ -281,7 +313,11 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(32),
                     boxShadow: const [
-                      BoxShadow(color: Color(0x16000000), blurRadius: 32, offset: Offset(0, 14)),
+                      BoxShadow(
+                        color: Color(0x16000000),
+                        blurRadius: 32,
+                        offset: Offset(0, 14),
+                      ),
                     ],
                   ),
                   child: Column(
@@ -297,28 +333,47 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                             end: Alignment.bottomCenter,
                           ),
                           boxShadow: const [
-                            BoxShadow(color: Color(0x2200A3FF), blurRadius: 20, offset: Offset(0, 10)),
+                            BoxShadow(
+                              color: Color(0x2200A3FF),
+                              blurRadius: 20,
+                              offset: Offset(0, 10),
+                            ),
                           ],
                         ),
                         child: const Center(
-                          child: Icon(Icons.emoji_events, size: 44, color: Colors.white),
+                          child: Icon(
+                            Icons.emoji_events,
+                            size: 44,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 22),
                       Text(
                         'Level Cleared',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Color(0xFF0F172A)),
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF0F172A),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       Text(
                         '${widget.levelName}을(를) 성공적으로 마쳤습니다.',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16, color: Color(0xFF64748B), height: 1.5),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF64748B),
+                          height: 1.5,
+                        ),
                       ),
                       const SizedBox(height: 18),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF0F9FF),
                           borderRadius: BorderRadius.circular(22),
@@ -326,15 +381,31 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.sync, color: Color(0xFF2563EB), size: 20),
+                            const Icon(
+                              Icons.sync,
+                              color: Color(0xFF2563EB),
+                              size: 20,
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
-                                  Text('Syncing Progress...', style: TextStyle(color: Color(0xFF1D4ED8), fontWeight: FontWeight.w700)),
+                                  Text(
+                                    'Syncing Progress...',
+                                    style: TextStyle(
+                                      color: Color(0xFF1D4ED8),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                                   SizedBox(height: 4),
-                                  Text('85% Complete', style: TextStyle(fontSize: 13, color: Color(0xFF475569))),
+                                  Text(
+                                    '85% Complete',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Color(0xFF475569),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -348,13 +419,18 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                           value: 0.85,
                           minHeight: 10,
                           backgroundColor: const Color(0xFFE0F2FE),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF3B82F6)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF3B82F6),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 18),
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(22),
@@ -364,12 +440,20 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                           children: [
                             Text(
                               recommendationTitle,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1D4ED8)),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFF1D4ED8),
+                              ),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               recommendationText,
-                              style: const TextStyle(fontSize: 14, color: Color(0xFF475569), height: 1.5),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF475569),
+                                height: 1.5,
+                              ),
                             ),
                           ],
                         ),
@@ -381,15 +465,30 @@ class _LevelCompletionScreenState extends State<LevelCompletionScreen> {
                           children: const [
                             Icon(Icons.volume_up, color: Color(0xFF2563EB)),
                             SizedBox(width: 10),
-                            Text('음성 안내 중...', style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.w700)),
+                            Text(
+                              '음성 안내 중...',
+                              style: TextStyle(
+                                color: Color(0xFF0F172A),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         )
                       else
                         TextButton.icon(
                           focusNode: _replayFocus,
                           onPressed: _speakCompletionMessage,
-                          icon: const Icon(Icons.replay, color: Color(0xFF2563EB)),
-                          label: const Text('다시 듣기', style: TextStyle(color: Color(0xFF2563EB), fontWeight: FontWeight.w700)),
+                          icon: const Icon(
+                            Icons.replay,
+                            color: Color(0xFF2563EB),
+                          ),
+                          label: const Text(
+                            '다시 듣기',
+                            style: TextStyle(
+                              color: Color(0xFF2563EB),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                     ],
                   ),

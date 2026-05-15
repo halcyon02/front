@@ -172,7 +172,10 @@ class _LearningCompleteScreenState extends State<LearningCompleteScreen> {
             backgroundColor: colorScheme.background,
             body: SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -198,7 +201,10 @@ class _LearningCompleteScreenState extends State<LearningCompleteScreen> {
                         const Expanded(
                           child: Text(
                             '학습 완료',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       ],

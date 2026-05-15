@@ -308,7 +308,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const LevelCompletionScreen(levelId: 'intro_1', levelName: '입문 1', nextLevelName: '초급'),
+                      builder: (_) => const LevelCompletionScreen(
+                        levelId: 'intro_1',
+                        levelName: '입문 1',
+                        nextLevelName: '초급',
+                      ),
                     ),
                   );
                 },
@@ -430,9 +434,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Widget _buildChatTab() {
-    return ChatScreen(
-      onBackPressed: () => setState(() => _selectedIndex = 0),
-    );
+    return ChatScreen(onBackPressed: () => setState(() => _selectedIndex = 0));
   }
 
   Widget _buildSettingsTab() {
