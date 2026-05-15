@@ -17,6 +17,21 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final FlutterTts _tts = FlutterTts();
   int _completedCount = 0;
+  // 단계별 문제 수 및 완료 수
+  int _entireCount = 78;
+  int _entireDone = 0;
+  int _entryCount = 0, _entryDone = 0;
+  int _basicCount = 0, _basicDone = 0;
+  int _interCount = 0, _interDone = 0;
+  int _advCount = 0, _advDone = 0;
+
+  // 단계별 prefix
+  final Map<String, String> _levelPrefixes = {
+    'ENT_': '입문',
+    'BAS_': '초급',
+    'INT_': '중급',
+    'ADV_': '고급',
+  };
   double _speechRate = 0.8;
   double _volume = 1.0;
   bool _vibrationEnabled = true;
@@ -67,15 +82,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final doneKeys = prefs.getKeys().where((key) => key.startsWith('done_'));
-    final completed = doneKeys
-        .where((key) => prefs.getBool(key) == true)
-        .length;
+    final completed = doneKeys.where((key) => prefs.getBool(key) == true).length;
+
+    // 단계별 카운트 초기화
+    int entryCount = 0, entryDone = 0;
+    int basicCount = 0, basicDone = 0;
+    int interCount = 0, interDone = 0;
+    int advCount = 0, advDone = 0;
+
+    for (final key in prefs.getKeys()) {
+      if (!key.startsWith('done_')) continue;
+      if (key.contains('ENT_')) entryCount++;
+      if (key.contains('BAS_')) basicCount++;
+      if (key.contains('INT_')) interCount++;
+      if (key.contains('ADV_')) advCount++;
+      if (prefs.getBool(key) == true) {
+        if (key.contains('ENT_')) entryDone++;
+        if (key.contains('BAS_')) basicDone++;
+        if (key.contains('INT_')) interDone++;
+        if (key.contains('ADV_')) advDone++;
+      }
+    }
     final vibration = prefs.getBool('vibration_enabled') ?? true;
     final speechRate = prefs.getDouble('tts_speech_rate') ?? _speechRate;
     final volume = prefs.getDouble('tts_volume') ?? _volume;
 
     setState(() {
       _completedCount = completed;
+      _entireDone = completed;
+      _entryCount = entryCount;
+      _entryDone = entryDone;
+      _basicCount = basicCount;
+      _basicDone = basicDone;
+      _interCount = interCount;
+      _interDone = interDone;
+      _advCount = advCount;
+      _advDone = advDone;
       _vibrationEnabled = vibration;
       _speechRate = speechRate;
       _volume = volume;
@@ -94,27 +136,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _speakProgress() async {
-    final message1 = '전체 $_totalLevels개 중 $_completedCount개 완료했습니다.';
-    final message2 = '입문 완료, 초급 3개 중 2개 진행 중, 중급 미시작, 고급 미시작입니다.';
+    // 안내 메시지 생성
+    final message = '전체 $_entireCount개 중 $_entireDone개, '
+        '입문 $_entryDone/$_entryCount, '
+        '초급 $_basicDone/$_basicCount, '
+        '중급 $_interDone/$_interCount, '
+        '고급 $_advDone/$_advCount 진행 중입니다.';
 
     setState(() => _isPlayingSample = true);
     try {
       await _tts.setSpeechRate(_speechRate);
       await _tts.setVolume(_volume);
-      await _tts.speak(message1);
-    } catch (_) {
-      // ignore
-    }
-
-    await Future.delayed(const Duration(milliseconds: 2500));
-
-    try {
-      await _tts.speak(message2);
-    } catch (_) {
-      // ignore
-    }
-
-    await Future.delayed(const Duration(milliseconds: 3500));
+      await _tts.speak(message);
+    } catch (_) {}
+    await Future.delayed(const Duration(milliseconds: 4000));
     if (mounted) {
       setState(() => _isPlayingSample = false);
     }
@@ -150,16 +185,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _updateSpeechRate(double value) {
+  void _updateSpeechRate(double value) async {
     setState(() => _speechRate = value);
     _savePreference('tts_speech_rate', value);
-    _tts.setSpeechRate(value);
+    await _tts.setSpeechRate(value);
+    if (_isPlayingSample) {
+      await _stopTts();
+      _speakProgress();
+    }
   }
 
-  void _updateVolume(double value) {
+  void _updateVolume(double value) async {
     setState(() => _volume = value);
     _savePreference('tts_volume', value);
-    _tts.setVolume(value);
+    await _tts.setVolume(value);
+    if (_isPlayingSample) {
+      await _stopTts();
+      _speakProgress();
+    }
   }
 
   Widget _buildSettingsRow({
@@ -345,7 +388,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Color(0xFF2563EB)),
+                      iconSize: 28,
+                      tooltip: '뒤로가기',
+                      onPressed: () async {
+                        await _stopTts();
+                        if (widget.onBackPressed != null) {
+                          widget.onBackPressed!();
+                        } else {
+                          Navigator.of(context).maybePop();
+                        }
+                      },
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+                const SizedBox(height: 12),
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -447,11 +509,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             const SizedBox(height: 14),
                             Text(
-                              '진도: $_completedCount/$_totalLevels',
+                              '전체 $_entireDone/$_entireCount',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
                                 color: Color(0xFF0F172A),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '입문 $_entryDone/$_entryCount, 초급 $_basicDone/$_basicCount',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                            Text(
+                              '중급 $_interDone/$_interCount, 고급 $_advDone/$_advCount',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF64748B),
                               ),
                             ),
                             const SizedBox(height: 6),
