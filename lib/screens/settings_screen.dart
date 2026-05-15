@@ -7,8 +7,9 @@ import 'package:puzzle_dot/services/tts_manager.dart';
 
 class SettingsScreen extends StatefulWidget {
   final VoidCallback? onBackPressed;
+  final bool isActive;
 
-  const SettingsScreen({super.key, this.onBackPressed});
+  const SettingsScreen({super.key, this.onBackPressed, required this.isActive});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -480,20 +481,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'alex.learner@example.com',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
-                ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 16,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
@@ -515,7 +508,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             const SizedBox(height: 14),
                             Text(
-                              '전체 $_entireDone/$_entireCount',
+                              '전체 [4m$_entireDone[24m/[4m$_entireCount[24m',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
@@ -545,44 +538,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 color: Color(0xFF64748B),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x14000000),
-                              blurRadius: 20,
-                              offset: Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                            const SizedBox(height: 16),
                             GestureDetector(
                               onTap: _isPlayingSample ? null : _speakProgress,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFEFF6FF),
+                                  color: Color(0xFFEFF6FF),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 padding: const EdgeInsets.all(6),
                                 child: Icon(
-                                  _isPlayingSample
-                                      ? Icons.volume_up
-                                      : Icons.replay,
-                                  color: const Color(0xFF2563EB),
+                                  _isPlayingSample ? Icons.volume_up : Icons.replay,
+                                  color: Color(0xFF2563EB),
                                   size: 28,
                                 ),
                               ),

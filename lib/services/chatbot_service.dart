@@ -65,7 +65,7 @@ class ChatbotService {
     if (normalized.contains('설정')) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const SettingsScreen()),
+        MaterialPageRoute(builder: (_) => const SettingsScreen(isActive: true)),
       );
       return true;
     }
